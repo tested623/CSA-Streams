@@ -28,9 +28,57 @@ import AddFilmModal from './components/AddFilmModal';
 import AdminPage from './components/AdminPage';
 import AddShowModal from './components/AddShowModal';
 import AddEpisodeModal from './components/AddEpisodeModal';
-import { NEWS_ARTICLES, PROFILES as DEFAULT_PROFILES, AVATARS, ADMIN_EMAILS } from './constants';
+import { NEWS_ARTICLES, PROFILES as DEFAULT_PROFILES, AVATARS, ADMIN_EMAILS, ANIMATIONS as INITIAL_ANIMATIONS } from './constants';
 import type { Animation, NewsArticle, Profile, User, WatchHistoryItem, Episode, Season } from './types';
-import { loadRemoteData, saveRemoteData } from './api';
+
+// --- Data Persistence Logic (from former api.ts) ---
+const LOCAL_STORAGE_KEY = 'chickensoup_data';
+
+interface RemoteData {
+  users: User[];
+  animations: Animation[];
+}
+
+const loadRemoteData = async (): Promise<RemoteData> => {
+  try {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+      console.log('✅ Loaded data from localStorage.');
+      const parsedData: RemoteData = JSON.parse(storedData);
+      // Ensure animations are populated if they are somehow empty in storage
+      if (!parsedData.animations || parsedData.animations.length === 0) {
+        parsedData.animations = INITIAL_ANIMATIONS;
+      }
+      return parsedData;
+    } else {
+      console.log('ℹ️ No data in localStorage, using initial default data.');
+    }
+  } catch (error) {
+    console.error('❌ Error loading data from localStorage:', error);
+  }
+  
+  // If no data or error, return initial state with the embedded admin account
+  const adminUser: User = {
+    id: 1,
+    email: 'admin@chickensoup.com',
+    password: ',px!^8ZFq3,cBE>}kBbV^tHE1lhndK',
+    profiles: DEFAULT_PROFILES.map(p => ({ ...p, name: 'Admin' })),
+    isAdmin: true,
+  };
+
+  return { users: [adminUser], animations: INITIAL_ANIMATIONS };
+};
+
+const saveRemoteData = async (data: RemoteData): Promise<void> => {
+  try {
+    const dataString = JSON.stringify(data);
+    localStorage.setItem(LOCAL_STORAGE_KEY, dataString);
+    console.log('✅ Saved data to localStorage.', data);
+  } catch (error) {
+    console.error('❌ Error saving data to localStorage:', error);
+  }
+};
+// --- End of Data Persistence Logic ---
 
 export type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies' | 'admin';
 
