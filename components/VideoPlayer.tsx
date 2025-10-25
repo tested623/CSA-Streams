@@ -13,7 +13,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, onClose }) => {
       const url = new URL(videoUrl);
       const videoId = url.searchParams.get('v');
       if (videoId) {
-        setEmbedUrl(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
+        // Add params to make the player cleaner: no related videos, modest branding, no video info/title bar
+        setEmbedUrl(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&showinfo=0`);
       }
     } catch (error) {
       console.error("Invalid YouTube URL:", videoUrl);

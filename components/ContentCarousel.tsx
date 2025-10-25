@@ -6,9 +6,11 @@ interface ContentCarouselProps {
   title: string;
   animations: Animation[];
   onSelectAnimation: (animation: Animation) => void;
+  onPlayAnimation?: (animation: Animation) => void;
+  progressMap?: { [animationId: number]: number };
 }
 
-const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, onSelectAnimation }) => {
+const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, onSelectAnimation, onPlayAnimation, progressMap }) => {
   return (
     <section>
       <h2 className="text-xl md:text-2xl font-bold mb-4 text-amber-300">{title}</h2>
@@ -18,7 +20,9 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, on
             <VideoCard 
               key={animation.id} 
               animation={animation} 
-              onSelect={onSelectAnimation} 
+              onSelect={onSelectAnimation}
+              onPlay={onPlayAnimation ? () => onPlayAnimation(animation) : undefined}
+              progress={progressMap?.[animation.id]}
             />
           ))
         ) : (

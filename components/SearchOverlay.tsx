@@ -9,6 +9,7 @@ interface SearchOverlayProps {
   onSearchQueryChange: (query: string) => void;
   results: Animation[];
   onSelectAnimation: (animation: Animation) => void;
+  onPlayAnimation: (animation: Animation) => void;
 }
 
 const SearchOverlay: React.FC<SearchOverlayProps> = ({
@@ -18,6 +19,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   onSearchQueryChange,
   results,
   onSelectAnimation,
+  onPlayAnimation,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -67,6 +69,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
                   key={animation.id}
                   animation={animation}
                   onSelect={onSelectAnimation}
+                  onPlay={() => onPlayAnimation(animation)}
                 />
               ))}
             </div>

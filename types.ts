@@ -5,6 +5,7 @@ export interface Episode {
   thumbnailUrl: string;
   duration: string;
   videoUrl: string;
+  isNew?: boolean;
 }
 
 export interface Season {
@@ -15,7 +16,7 @@ export interface Season {
 
 export interface Animation {
   id: number;
-  title: string;
+  title:string;
   description: string;
   thumbnailUrl: string;
   heroImageUrl: string;
@@ -26,6 +27,9 @@ export interface Animation {
   seasons?: Season[];
   trailerUrl?: string;
   videoUrl?: string;
+  likes?: number;
+  superlikes?: number;
+  dislikes?: number;
 }
 
 export interface AnimationCategory {
@@ -42,9 +46,24 @@ export interface NewsArticle {
   content: string;
 }
 
+export interface WatchHistoryItem {
+  animationId: number;
+  progress: number; // 0 to 1
+}
+
 export interface Profile {
   id: number;
   name: string;
   avatarUrl: string;
-  watchHistory?: number[];
+  watchHistory?: WatchHistoryItem[];
+  myList?: number[];
+  ratings?: { [animationId: number]: 'like' | 'superlike' | 'dislike' };
+}
+
+export interface User {
+  id: number;
+  email: string;
+  password?: string; // In a real app, this would be a hash
+  profiles: Profile[];
+  isAdmin?: boolean;
 }

@@ -13,6 +13,26 @@ export const INFO_ICON = (
   </svg>
 );
 
+export const LIKE_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333V17a1 1 0 001 1h6.364a1 1 0 00.949-.684l2.121-6.364A1 1 0 0015.434 9H11V5.5a2.5 2.5 0 00-5 0V10h1.5a.5.5 0 01.5.5v.333a.5.5 0 01-.5.5H6z" />
+  </svg>
+);
+
+export const SUPERLIKE_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+  </svg>
+);
+
+export const DISLIKE_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667V3a1 1 0 00-1-1H6.636a1 1 0 00-.949.684L3.566 9A1 1 0 004.566 11H9v4.5a2.5 2.5 0 005 0V10h-1.5a.5.5 0 01-.5-.5v-.333a.5.5 0 01.5-.5H14z" />
+  </svg>
+);
+
+export const ADMIN_EMAILS = ['admin@chickensoup.com'];
+
 export const AVATARS: string[] = [
   'https://img.gs/fhcphvsghs/150/https://i.ibb.co/35MPWb5L/IMG-3461.png', // The Slayer
   'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png', // Slayer's friend
@@ -30,6 +50,8 @@ export const PROFILES: Profile[] = [
     name: 'Watcher',
     avatarUrl: AVATARS[0],
     watchHistory: [],
+    myList: [],
+    ratings: {},
   },
 ];
 
@@ -80,6 +102,9 @@ export const ANIMATIONS: Animation[] = [
     rating: 'TV-MA',
     duration: '4 Seasons',
     trailerUrl: 'https://www.youtube.com/watch?v=oy-43ZNNKts',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
     seasons: [
       {
         seasonNumber: 1,
@@ -299,6 +324,9 @@ export const ANIMATIONS: Animation[] = [
     rating: 'TV-13',
     duration: '1 Season',
     trailerUrl: 'https://www.youtube.com/watch?v=yCxFpOL1Pe8',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
     seasons: [
       {
         seasonNumber: 1,
@@ -342,6 +370,15 @@ export const ANIMATIONS: Animation[] = [
             thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.postimg.cc/grgBtnJ4/Screenshot-2025-10-21-194113.png',
             duration: '3m 9s',
             videoUrl: 'https://www.youtube.com/watch?v=jOHXkVaq_HI'
+          },
+          {
+            id: 2106,
+            title: 'The island',
+            description: 'The two tales go to the island where no one leaves what happened next is even crazier',
+            thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.postimg.cc/sM4b6fPF/Screenshot-2025-10-24-174107.png',
+            duration: '2m 6s',
+            videoUrl: 'https://www.youtube.com/watch?v=WzT_AvWQf9A',
+            isNew: true,
           }
         ]
       }
@@ -357,6 +394,9 @@ export const ANIMATIONS: Animation[] = [
     year: 2024,
     rating: 'TV-MA',
     duration: '1 Season',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
     seasons: [
       {
         seasonNumber: 1,
@@ -392,6 +432,9 @@ export const ANIMATIONS: Animation[] = [
     rating: 'PG-13',
     duration: '2 Seasons',
     trailerUrl: 'https://www.youtube.com/watch?v=zJQXscBSIlM',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
     seasons: [
       {
         seasonNumber: 1,
@@ -449,6 +492,9 @@ export const ANIMATIONS: Animation[] = [
     rating: 'NR',
     duration: '1m 55s',
     videoUrl: 'https://www.youtube.com/watch?v=QEyBF_gaL7Y',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
   },
   {
     id: 6,
@@ -461,6 +507,9 @@ export const ANIMATIONS: Animation[] = [
     rating: 'NR',
     duration: '6m 18s',
     videoUrl: 'https://www.youtube.com/watch?v=bKrHeSFmw_s',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
   },
   {
     id: 7,
@@ -473,5 +522,8 @@ export const ANIMATIONS: Animation[] = [
     rating: 'NR',
     duration: '30s',
     videoUrl: 'https://www.youtube.com/watch?v=PomdGCbxFkE',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
   },
 ];

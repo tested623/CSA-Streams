@@ -21,10 +21,15 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, index, onPlay }) => 
           <div className="text-white">{PLAY_ICON}</div>
         </div>
       </div>
-      <div className="flex-grow">
-        <div className="flex justify-between items-baseline">
-          <h3 className="text-lg font-bold text-white">{episode.title}</h3>
-          <span className="text-sm text-gray-400">{episode.duration}</span>
+      <div className="flex-grow min-w-0">
+        <div className="flex justify-between items-center gap-4">
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="text-lg font-bold text-white truncate">{episode.title}</h3>
+            {episode.isNew && (
+              <span className="bg-amber-400 text-slate-900 text-xs font-bold px-2 py-0.5 rounded-md uppercase flex-shrink-0">NEW</span>
+            )}
+          </div>
+          <span className="text-sm text-gray-400 flex-shrink-0">{episode.duration}</span>
         </div>
         <p className="text-sm text-gray-400 mt-1 line-clamp-2">{episode.description}</p>
       </div>

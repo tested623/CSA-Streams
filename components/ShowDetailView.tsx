@@ -1,42 +1,61 @@
 import React, { useState } from 'react';
 import type { Animation } from '../types';
 import EpisodeCard from './EpisodeCard';
-import VideoPlayer from './VideoPlayer';
+import RatingControls from './RatingControls';
 import { PLAY_ICON } from '../constants';
 
 interface ShowDetailViewProps {
   animation: Animation;
   onBack: () => void;
   onAddToWatchHistory: (animationId: number) => void;
+  onToggleMyList: (animationId: number) => void;
+  isInMyList: boolean;
+  onPlayVideo: (videoUrl: string) => void;
+  userRating?: 'like' | 'superlike' | 'dislike';
+  onRateAnimation: (animationId: number, rating: 'like' | 'superlike' | 'dislike' | null) => void;
 }
 
-const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAddToWatchHistory }) => {
+const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAddToWatchHistory, onToggleMyList, isInMyList, onPlayVideo, userRating, onRateAnimation }) => {
   const [selectedSeason, setSelectedSeason] = useState(animation.seasons?.[0]?.seasonNumber || 1);
-  const [playingVideoUrl, setPlayingVideoUrl] = useState<string | null>(null);
 
   const isShortFilm = !animation.seasons && !!animation.videoUrl;
   const currentSeason = animation.seasons?.find(s => s.seasonNumber === selectedSeason);
 
   const handlePlayEpisode = (videoUrl: string) => {
-    setPlayingVideoUrl(videoUrl);
+    onPlayVideo(videoUrl);
     onAddToWatchHistory(animation.id);
   };
-
-  const handleClosePlayer = () => {
-    setPlayingVideoUrl(null);
-  };
-
+  
   const handlePlay = () => {
-    const urlToPlay = isShortFilm ? animation.videoUrl : animation.trailerUrl;
+    const urlToPlay = isShortFilm 
+      ? animation.videoUrl 
+      : animation.trailerUrl || animation.seasons?.[0]?.episodes?.[0]?.videoUrl;
+
     if (urlToPlay) {
       handlePlayEpisode(urlToPlay);
     }
   };
+  
+  const MyListButton = () => (
+    <button
+      onClick={() => onToggleMyList(animation.id)}
+      className="bg-slate-700/60 hover:bg-slate-600/80 text-white font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-transform hover:scale-105 active:scale-95 backdrop-blur-sm"
+    >
+      {isInMyList ? (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+      )}
+      <span>{isInMyList ? 'In My List' : 'Add to My List'}</span>
+    </button>
+  );
 
   return (
-    <div className="animate-fade-in">
-      {playingVideoUrl && <VideoPlayer videoUrl={playingVideoUrl} onClose={handleClosePlayer} />}
-
+    <div>
       {/* Hero Section for the Detail View */}
       <div className="relative h-[50vh] md:h-[70vh] w-full">
         <div
@@ -53,14 +72,22 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
               <span>{animation.duration}</span>
             </div>
             <p className="text-base md:text-lg mb-6 line-clamp-3">{animation.description}</p>
-            <button 
-              onClick={handlePlay}
-              className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-transform hover:scale-105 active:scale-95 disabled:bg-gray-500 disabled:cursor-not-allowed"
-              disabled={isShortFilm ? !animation.videoUrl : !animation.trailerUrl}
-            >
-              {PLAY_ICON}
-              <span>{isShortFilm ? 'Play Film' : 'Play Trailer'}</span>
-            </button>
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={handlePlay}
+                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-transform hover:scale-105 active:scale-95 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                disabled={isShortFilm ? !animation.videoUrl : !animation.trailerUrl && !animation.seasons?.[0]?.episodes?.[0]?.videoUrl}
+              >
+                {PLAY_ICON}
+                <span>{isShortFilm ? 'Play Film' : 'Play Trailer'}</span>
+              </button>
+              <MyListButton />
+            </div>
+            <RatingControls 
+              animation={animation}
+              userRating={userRating}
+              onRate={onRateAnimation}
+            />
           </div>
         </div>
       </div>
