@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import type { Profile } from '../types';
 
@@ -7,10 +8,11 @@ interface EditProfileModalProps {
   onSave: (profileData: { id?: number; name: string; avatarUrl: string }) => void;
   onDelete: (profileId: number) => void;
   avatars: string[];
+  avatarSections?: { title: string; avatars: string[] }[];
   canDelete: boolean;
 }
 
-const EditProfileModal: React.FC<EditProfileModalProps> = ({ profile, onClose, onSave, onDelete, avatars, canDelete }) => {
+const EditProfileModal: React.FC<EditProfileModalProps> = ({ profile, onClose, onSave, onDelete, avatars, avatarSections, canDelete }) => {
   const isNew = profile === 'new';
   const [name, setName] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(avatars[0]);
@@ -46,12 +48,12 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ profile, onClose, o
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center backdrop-blur-sm animate-fade-in" onClick={onClose}>
       <div 
-        className="bg-slate-800 p-8 rounded-lg shadow-2xl w-full max-w-2xl relative border border-slate-700"
+        className="bg-slate-800 p-8 rounded-lg shadow-2xl w-full max-w-2xl relative border border-slate-700 max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-3xl font-bold text-amber-400 mb-6">{isNew ? 'Add Profile' : 'Edit Profile'}</h2>
+        <h2 className="text-3xl font-bold text-amber-400 mb-6 flex-shrink-0">{isNew ? 'Add Profile' : 'Edit Profile'}</h2>
         
-        <div className="flex flex-col md:flex-row gap-8 items-start">
+        <div className="flex flex-col md:flex-row gap-8 items-start flex-shrink-0 mb-6">
             <div className="flex-grow w-full md:w-auto">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Profile Name</label>
                 <input
@@ -69,18 +71,36 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ profile, onClose, o
             </div>
         </div>
 
-        <div className="mt-8">
+        <div className="overflow-y-auto pr-2 min-h-0 flex-grow">
             <h3 className="text-lg font-semibold text-white mb-4">Choose an Avatar</h3>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
-                {avatars.map(avatar => (
-                    <button key={avatar} onClick={() => setSelectedAvatar(avatar)} className={`w-16 h-16 rounded-md overflow-hidden ring-2 transition ${selectedAvatar === avatar ? 'ring-amber-400' : 'ring-transparent hover:ring-white'}`}>
-                        <img src={avatar} alt="Avatar option" className="w-full h-full object-cover" />
-                    </button>
+            
+            {avatarSections ? (
+              <div className="space-y-6">
+                {avatarSections.map((section) => (
+                  <div key={section.title}>
+                     <h4 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider sticky top-0 bg-slate-800 py-1 z-10">{section.title}</h4>
+                     <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+                        {section.avatars.map(avatar => (
+                            <button key={avatar} onClick={() => setSelectedAvatar(avatar)} className={`w-16 h-16 rounded-md overflow-hidden ring-2 transition ${selectedAvatar === avatar ? 'ring-amber-400' : 'ring-transparent hover:ring-white'}`}>
+                                <img src={avatar} alt="Avatar option" className="w-full h-full object-cover" />
+                            </button>
+                        ))}
+                     </div>
+                  </div>
                 ))}
-            </div>
+              </div>
+            ) : (
+               <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+                  {avatars.map(avatar => (
+                      <button key={avatar} onClick={() => setSelectedAvatar(avatar)} className={`w-16 h-16 rounded-md overflow-hidden ring-2 transition ${selectedAvatar === avatar ? 'ring-amber-400' : 'ring-transparent hover:ring-white'}`}>
+                          <img src={avatar} alt="Avatar option" className="w-full h-full object-cover" />
+                      </button>
+                  ))}
+              </div>
+            )}
         </div>
 
-        <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-700">
+        <div className="flex justify-between items-center mt-6 pt-6 border-t border-slate-700 flex-shrink-0">
           <div>
             {!isNew && canDelete && (
                 <button

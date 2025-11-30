@@ -1,6 +1,7 @@
+
 import React from 'react';
 
-type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'careers' | 'press' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies';
+type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'careers' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies' | 'contact';
 
 interface FooterProps {
   onNavigate: (view: View) => void;
@@ -15,7 +16,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h3 className="font-bold text-white mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
               <li><button onClick={() => onNavigate('about')} className="hover:text-amber-300">About Us</button></li>
-              <li><button disabled className="opacity-50 cursor-not-allowed">Careers</button></li>
+              <li><button onClick={() => onNavigate('careers')} className="hover:text-amber-300">Careers</button></li>
               <li><button disabled className="opacity-50 cursor-not-allowed">Press</button></li>
             </ul>
           </div>
@@ -23,7 +24,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h3 className="font-bold text-white mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               <li><button onClick={() => onNavigate('help')} className="hover:text-amber-300">Help Center</button></li>
-              <li><button disabled className="opacity-50 cursor-not-allowed">Contact Us</button></li>
+              <li><button onClick={() => onNavigate('contact')} className="hover:text-amber-300">Contact Us</button></li>
               <li><button onClick={() => onNavigate('account')} className="hover:text-amber-300">Account</button></li>
             </ul>
           </div>

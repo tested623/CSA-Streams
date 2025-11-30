@@ -1,3 +1,4 @@
+
 export interface Episode {
   id: number;
   title: string;
@@ -30,6 +31,7 @@ export interface Animation {
   likes?: number;
   superlikes?: number;
   dislikes?: number;
+  status?: string;
 }
 
 export interface AnimationCategory {
@@ -65,5 +67,4 @@ export interface User {
   email: string;
   password?: string; // In a real app, this would be a hash
   profiles: Profile[];
-  isAdmin?: boolean;
 }

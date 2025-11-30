@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { User } from '../types';
 import type { View } from '../App';
@@ -25,20 +26,6 @@ const AccountPage: React.FC<AccountPageProps> = ({ user, onManageProfiles, onNav
         </h1>
 
         <div className="space-y-8">
-
-          {/* ADMIN TOOLS */}
-          {user.isAdmin && (
-            <div className="bg-slate-800/50 p-6 rounded-lg border border-amber-400/50">
-              <h2 className="text-xl font-semibold text-amber-400 mb-4">Admin Tools</h2>
-              <p className="text-gray-300 mb-4">Access admin-only features and application statistics.</p>
-              <button 
-                onClick={() => onNavigate('admin')}
-                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-2 px-4 rounded-lg transition-colors"
-              >
-                Go to Admin Panel
-              </button>
-            </div>
-          )}
 
           {/* PROFILE & PARENTAL CONTROLS */}
           <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">

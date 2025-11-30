@@ -1,3 +1,4 @@
+
 import type { User, Animation, Profile } from './types';
 import { ANIMATIONS as INITIAL_ANIMATIONS, AVATARS, PROFILES as DEFAULT_PROFILES } from './constants';
 
@@ -26,16 +27,8 @@ export const loadRemoteData = async (): Promise<RemoteData> => {
     console.error('❌ Error loading data from localStorage:', error);
   }
   
-  // If no data or error, return initial state with the embedded admin account
-  const adminUser: User = {
-    id: 1,
-    email: 'admin@chickensoup.com',
-    password: ',px!^8ZFq3,cBE>}kBbV^tHE1lhndK',
-    profiles: DEFAULT_PROFILES.map(p => ({ ...p, name: 'Admin' })),
-    isAdmin: true,
-  };
-
-  return { users: [adminUser], animations: INITIAL_ANIMATIONS };
+  // If no data or error, return initial state with no users
+  return { users: [], animations: INITIAL_ANIMATIONS };
 };
 
 export const saveRemoteData = async (data: RemoteData): Promise<void> => {

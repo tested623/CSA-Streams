@@ -1,5 +1,8 @@
+
 import React from 'react';
 import type { Animation, AnimationCategory, NewsArticle, Profile } from './types';
+
+// --- ICONS ---
 
 export const PLAY_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -8,41 +11,68 @@ export const PLAY_ICON = (
 );
 
 export const INFO_ICON = (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-    <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.042.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
   </svg>
 );
 
 export const LIKE_ICON = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333V17a1 1 0 001 1h6.364a1 1 0 00.949-.684l2.121-6.364A1 1 0 0015.434 9H11V5.5a2.5 2.5 0 00-5 0V10h1.5a.5.5 0 01.5.5v.333a.5.5 0 01-.5.5H6z" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    <path d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.233 18.748c.576 0 1.07.274 1.403.727a1.5 1.5 0 001.194.595h4.156c.365 0 .668-.27.708-.636a.751.751 0 00-.708-.864h-3.61a3.003 3.003 0 01-2.138-5.118M7.494 18.75c.425 0 .82-.236.975-.632A7.48 7.48 0 009 15.375c0-1.75-.599-3.358-1.602-4.634-.151-.192-.373-.309-.6-.397a1.873 1.873 0 00-1.595 2.506 1.877 1.877 0 01-.195.966c-.333.666-1.163.926-1.83.606a.75.75 0 10-.646 1.353c1.065.51 1.734 1.583 1.734 2.77 0 .584-.13 1.134-.365 1.632a.75.75 0 101.355.645A9.01 9.01 0 017.494 18.75z" />
   </svg>
 );
 
 export const SUPERLIKE_ICON = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
   </svg>
 );
 
 export const DISLIKE_ICON = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-    <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667V3a1 1 0 00-1-1H6.636a1 1 0 00-.949.684L3.566 9A1 1 0 004.566 11H9v4.5a2.5 2.5 0 005 0V10h-1.5a.5.5 0 01-.5-.5v-.333a.5.5 0 01.5-.5H14z" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    <path d="M15.73 5.25h1.335c.775 0 1.406.63 1.406 1.406v13.069c0 .775-.63 1.406-1.406 1.406H9.428a2.813 2.813 0 01-1.99-.844l-4.522-4.522a2.813 2.813 0 01-.844-1.99V9.469c0-.775.63-1.406 1.406-1.406h1.336c.55 0 1.055-.262 1.366-.69l1.62-2.228a2.813 2.813 0 012.275-1.157h2.822a2.813 2.813 0 012.833 1.262z" />
   </svg>
 );
 
-export const ADMIN_EMAILS = ['admin@chickensoup.com'];
+// --- DATA ---
 
-export const AVATARS: string[] = [
-  'https://img.gs/fhcphvsghs/150/https://i.ibb.co/35MPWb5L/IMG-3461.png', // The Slayer
-  'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png', // Slayer's friend
-  'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/phwMmrFg/Screenshot-2025-10-21-193413.png', // The Yapper from Two Tales
-  'https://img.gs/fhcphvsghs/150/https://i.ibb.co/TBHKFS22/IMG-3459.png', // Two Tales main duo
-  'https://img.gs/fhcphvsghs/150/https://i.ibb.co/HDPJYyVb/Screenshot-2025-10-21-173823.png', // Fruity Toons duo
-  'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/5Qw91T0M/Screenshot-2025-10-21-203948.png', // My New Character
-  'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/1nKPj67W/Screenshot-2025-10-21-204622.png', // Galactic Guardians hero
-  'https://img.gs/fhcphvsghs/150/https://i.ibb.co/KcZy3syF/Screenshot-2025-10-21-173625.png', // Freaky Falls duo
+export const AVATAR_SECTIONS = [
+  {
+    title: 'The Slayer',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/35MPWb5L/IMG-3461.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png',
+    ]
+  },
+  {
+    title: 'Two Tales',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/phwMmrFg/Screenshot-2025-10-21-193413.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/TBHKFS22/IMG-3459.png',
+    ]
+  },
+  {
+    title: 'Fruity Toons',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/HDPJYyVb/Screenshot-2025-10-21-173823.png',
+    ]
+  },
+  {
+    title: 'Freaky Falls',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/KcZy3syF/Screenshot-2025-10-21-173625.png',
+    ]
+  },
+  {
+    title: 'Short Films',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/5Qw91T0M/Screenshot-2025-10-21-203948.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/1nKPj67W/Screenshot-2025-10-21-204622.png',
+    ]
+  }
 ];
+
+export const AVATARS: string[] = AVATAR_SECTIONS.flatMap(section => section.avatars);
 
 export const PROFILES: Profile[] = [
   {
@@ -73,8 +103,7 @@ Ploto-Samir Studios is a Channel detected the the story's of Samir. His life is 
 
 Along with this acquisition , ChickenSoup studios now gains a new platform to share there creative storys on.
 
-Not only Will alll "Samir Story's" Episodess Release on the platform, His partner,
-Billyrobloxipadyt has also provided us with a short series to release. in times like these we can be sure that ChickenSoup studios will provide us quality content`
+in times like these we can be sure that ChickenSoup studios will provide us quality content`
   },
   {
     id: 1,
@@ -115,7 +144,7 @@ export const ANIMATIONS: Animation[] = [
             description: "The first Battle, a hero will emerge",
             thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.ibb.co/V0X6tSb8/Screenshot-2025-10-21-174842.png',
             duration: '13s',
-            videoUrl: 'https://www.youtube.com/watch?v=iNJOgRu_u0Q'
+            videoUrl: 'https://www.youtube.com/watch?v=oy-43ZNNKts'
           },
           {
             id: 102,
@@ -413,7 +442,7 @@ export const ANIMATIONS: Animation[] = [
             id: 3102,
             title: 'The haunting',
             description: '(Parody of Gravity Falls)',
-            thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.postimg.cc/7bhpkgpY/Screenshot-2025-10-21-200049.png',
+            thumbnailUrl: 'https://i.ibb.co/bMgmWSGh/Screenshot-2025-11-29-133425.png',
             duration: '2m 52s',
             videoUrl: 'https://www.youtube.com/watch?v=h-eXbLpFHgc'
           }
@@ -526,4 +555,92 @@ export const ANIMATIONS: Animation[] = [
     superlikes: 0,
     dislikes: 0,
   },
+  {
+    id: 8,
+    title: "Samir's Stories",
+    description: "The stories of Samir. His life is hectic, and shares an LGBTQ+ Indian standpoint of life.",
+    thumbnailUrl: 'https://i.ibb.co/qMKsKd4J/Screenshot-2025-11-28-225603.png',
+    heroImageUrl: 'https://i.ibb.co/qMKsKd4J/Screenshot-2025-11-28-225603.png',
+    category: 'shows',
+    year: 2020,
+    rating: 'PG',
+    duration: '1 Season',
+    trailerUrl: 'https://www.youtube.com/watch?v=q6tHK0NRY5s',
+    status: 'Discontinued',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
+    seasons: [
+      {
+        seasonNumber: 1,
+        episodes: [
+          {
+            id: 801,
+            title: 'Samir Hides The House',
+            description: "Samir Hides the house to avoid his mistakes",
+            thumbnailUrl: 'https://i.ibb.co/spv9kbTy/Screenshot-2025-11-29-001310.png',
+            duration: '1m 31s',
+            videoUrl: 'https://www.youtube.com/watch?v=8z86XCCeFrw'
+          },
+          {
+            id: 802,
+            title: 'tested Finds Samir',
+            description: "The words Samir uses the kill tested: Shshshshsshshshshsh Shshshshsshshshshsh Shshshshsshshshshsh Shshshshsshshshshsh",
+            thumbnailUrl: 'https://i.ibb.co/WWjSKzH5/Screenshot-2025-11-29-001345.png',
+            duration: '2m 15s',
+            videoUrl: 'https://www.youtube.com/watch?v=d5XSaiPqhvM'
+          },
+          {
+            id: 803,
+            title: 'Samir Plays Roblox',
+            description: "a quick episode about gaming",
+            thumbnailUrl: 'https://i.ibb.co/q3zx98x4/Screenshot-2025-11-29-001424.png',
+            duration: '4m 32s',
+            videoUrl: 'https://www.youtube.com/watch?v=IPg9VHsaUD4'
+          },
+          {
+            id: 804,
+            title: 'Samir Dumpster Dives;part one',
+            description: "Including tested623 and a secret tape 🤫📼\nPart 2 could be a huge plot twist!",
+            thumbnailUrl: 'https://i.ibb.co/fzgBBgRy/Screenshot-2025-11-29-001516.png',
+            duration: '2m 16s',
+            videoUrl: 'https://www.youtube.com/watch?v=hokLazNNbdI'
+          },
+          {
+            id: 805,
+            title: 'Samir Dumpster Dives; Part Two',
+            description: "Video comes with mystery for later seasons",
+            thumbnailUrl: 'https://i.ibb.co/4ZLDZ0d4/Screenshot-2025-11-29-001621.png',
+            duration: '3m 56s',
+            videoUrl: 'https://www.youtube.com/watch?v=wXk7ARStyY8'
+          },
+          {
+            id: 806,
+            title: '1,2,3 Tragedy!',
+            description: "This episode is a tragic episode",
+            thumbnailUrl: 'https://i.ibb.co/Mx5PzjK1/Screenshot-2025-11-29-001656.png',
+            duration: '2m 00s',
+            videoUrl: 'https://www.youtube.com/watch?v=QI2tGTYd3JE'
+          },
+          {
+            id: 807,
+            title: 'the fight Begins...',
+            description: "This time they fight",
+            thumbnailUrl: 'https://i.ibb.co/WvYL855M/Screenshot-2025-11-29-001719.png',
+            duration: '1m 09s',
+            videoUrl: 'https://www.youtube.com/watch?v=vb0l0Mv_qMU'
+          },
+          {
+            id: 808,
+            title: 'Death to Samir',
+            description: "1 This will be one of the worst episodes made. But, it does give of many hints. Expect more uploads soon.",
+            thumbnailUrl: 'https://i.ibb.co/5hxWh0DQ/Screenshot-2025-11-29-001741.png',
+            duration: '1m 17s',
+            videoUrl: 'https://www.youtube.com/watch?v=zTKwuYiInKE',
+            isNew: true
+          }
+        ]
+      }
+    ]
+  }
 ];

@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const FaqItem: React.FC<{ question: string; children: React.ReactNode }> = ({ question, children }) => (
@@ -42,6 +43,15 @@ const HelpCenterPage: React.FC = () => {
               <FaqItem question="How do I create a profile?">
                 <p>You can create a new profile by logging in, clicking your avatar in the top-right, and selecting "Switch Profile." On the "Who's Watching?" screen, click "Manage Profiles" and then "Add Profile."</p>
               </FaqItem>
+              <FaqItem question="How many users can each account have?">
+                <p>Up to 5 users.</p>
+              </FaqItem>
+              <FaqItem question="How much does this service cost?">
+                <p>Nothing. We are committed to providing quality content for free.</p>
+              </FaqItem>
+              <FaqItem question="My account is gone. What do i do?">
+                <p>Please contact support if you have this issue, as it is a glitch that is still happening to a few users.</p>
+              </FaqItem>
             </div>
           </div>
 
@@ -59,6 +69,12 @@ const HelpCenterPage: React.FC = () => {
               </FaqItem>
                <FaqItem question="The website is not loading correctly.">
                 <p>A white screen or improper loading is often caused by an issue with file paths. If you are running this application locally outside of its intended development environment, please ensure all file paths in `index.html` are relative (e.g., `./index.tsx` instead of `/index.tsx`).</p>
+              </FaqItem>
+              <FaqItem question="How to Resolve Error 513?">
+                <p>Error 513 cannot be fixed by a user. We are currently trying to fix it. In the meantime, you can click the link that goes with the error and watch the video on YouTube.</p>
+              </FaqItem>
+              <FaqItem question="A button is greyed out/Disabled. Why?">
+                <p>This is a feature because some things might not be up to date.</p>
               </FaqItem>
             </div>
           </div>

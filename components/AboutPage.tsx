@@ -1,9 +1,10 @@
+
 import React from 'react';
 
 const AboutPage: React.FC = () => {
   const teamMembers = [
     { name: 'Doubleuwill', role: 'Founder - Lead Animator - and Head of Storytelling', imageUrl: 'https://img.gs/fhcphvsghs/150/https://i.ibb.co/35MPWb5L/IMG-3461.png' },
-    { name: 'Thedragon623', role: 'Script writer', imageUrl: 'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png' },
+    { name: 'Thedragon623', role: 'Script Writer - Animator', imageUrl: 'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png' },
     { name: 'Mechnoviking333', role: 'Chief ideas officer - co founder', imageUrl: 'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/phwMmrFg/Screenshot-2025-10-21-193413.png' },
   ];
 

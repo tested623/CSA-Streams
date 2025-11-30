@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { Animation } from '../types';
 import EpisodeCard from './EpisodeCard';
@@ -10,7 +11,7 @@ interface ShowDetailViewProps {
   onAddToWatchHistory: (animationId: number) => void;
   onToggleMyList: (animationId: number) => void;
   isInMyList: boolean;
-  onPlayVideo: (videoUrl: string) => void;
+  onPlayVideo: (videoUrl: string, posterUrl?: string) => void;
   userRating?: 'like' | 'superlike' | 'dislike';
   onRateAnimation: (animationId: number, rating: 'like' | 'superlike' | 'dislike' | null) => void;
 }
@@ -21,8 +22,14 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
   const isShortFilm = !animation.seasons && !!animation.videoUrl;
   const currentSeason = animation.seasons?.find(s => s.seasonNumber === selectedSeason);
 
-  const handlePlayEpisode = (videoUrl: string) => {
-    onPlayVideo(videoUrl);
+  // Safely determine if we are viewing the last season available for this animation
+  const lastSeason = animation.seasons && animation.seasons.length > 0 
+    ? animation.seasons[animation.seasons.length - 1] 
+    : null;
+  const isLastSeason = currentSeason && lastSeason && currentSeason.seasonNumber === lastSeason.seasonNumber;
+
+  const handlePlayEpisode = (videoUrl: string, episodeThumbnail?: string) => {
+    onPlayVideo(videoUrl, episodeThumbnail || animation.heroImageUrl);
     onAddToWatchHistory(animation.id);
   };
   
@@ -32,7 +39,8 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
       : animation.trailerUrl || animation.seasons?.[0]?.episodes?.[0]?.videoUrl;
 
     if (urlToPlay) {
-      handlePlayEpisode(urlToPlay);
+      // Use the hero image as a fallback poster for the main play button
+      handlePlayEpisode(urlToPlay, animation.heroImageUrl);
     }
   };
   
@@ -65,6 +73,11 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
         <div className="relative h-full flex flex-col justify-end px-4 md:px-12 pb-12">
           <div className="max-w-2xl text-white">
+            {animation.title === "Samir's Stories" ? (
+                 <h3 className="text-2xl md:text-3xl font-black text-pink-400 mb-2" style={{ fontFamily: "'Shadows Into Light', cursive" }}>Ploto-Samir Studios</h3>
+            ) : (
+                 <h3 className="text-2xl md:text-3xl font-black text-amber-400 mb-2">CHICKENSOUP</h3>
+            )}
             <h1 className="text-4xl md:text-6xl font-black mb-4">{animation.title}</h1>
             <div className="flex items-center space-x-4 text-sm text-gray-300 mb-4">
               <span>{animation.year}</span>
@@ -124,22 +137,22 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
             </div>
 
             <div className="space-y-4">
-              {currentSeason?.episodes.length > 0 ? (
+              {currentSeason && currentSeason.episodes.length > 0 ? (
                 currentSeason.episodes.map((episode, index) => (
                   <EpisodeCard 
                     key={episode.id} 
                     episode={episode} 
                     index={index + 1} 
-                    onPlay={() => handlePlayEpisode(episode.videoUrl)}
+                    onPlay={() => handlePlayEpisode(episode.videoUrl, episode.thumbnailUrl)}
                   />
                 ))
               ) : (
                 <p className="text-gray-500">No episodes available for this season yet.</p>
               )}
 
-              {currentSeason?.seasonNumber === animation.seasons?.[animation.seasons.length - 1].seasonNumber && (
+              {isLastSeason && (
                 <div className="text-center text-amber-300 font-semibold py-8">
-                  More coming soon, Stay Tuned!
+                  {animation.status === 'Discontinued' ? 'Show Discontinued' : 'More coming soon, Stay Tuned!'}
                 </div>
               )}
 

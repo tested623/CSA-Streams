@@ -1,9 +1,14 @@
+
 import React, { useState } from 'react';
 
 const CookieToggle: React.FC<{ title: string; description: string; enabled: boolean; onToggle?: (enabled: boolean) => void; disabled?: boolean }> = 
 ({ title, description, enabled, onToggle, disabled }) => {
+  // Apply opacity if disabled and unchecked to simulate "greyed out" unavailable state, 
+  // while keeping "Essential" (disabled + checked) fully visible.
+  const containerClasses = `flex justify-between items-start bg-slate-800/50 p-4 rounded-lg border border-slate-700 ${disabled && !enabled ? 'opacity-50' : ''}`;
+
   return (
-    <div className="flex justify-between items-start bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+    <div className={containerClasses}>
       <div className="pr-4">
         <h3 className="font-semibold text-white">{title}</h3>
         <p className="text-sm text-gray-400">{description}</p>
@@ -57,8 +62,9 @@ const CookiePreferencesPage: React.FC = () => {
           />
           <CookieToggle
             title="Marketing & Advertising Cookies"
-            description="These cookies may be set through our site by our advertising partners. They may be used by those companies to build a profile of your interests and show you relevant adverts on other sites."
-            enabled={marketing}
+            description="We do not sell any of your cookies."
+            enabled={false}
+            disabled={true}
             onToggle={setMarketing}
           />
         </div>

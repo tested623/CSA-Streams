@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -20,23 +21,19 @@ import AboutPage from './components/AboutPage';
 import CareersPage from './components/CareersPage';
 import PressPage from './components/PressPage';
 import HelpCenterPage from './components/HelpCenterPage';
+import ContactPage from './components/ContactPage';
 import AccountPage from './components/AccountPage';
 import TermsOfUsePage from './components/TermsOfUsePage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import CookiePreferencesPage from './components/CookiePreferencesPage';
-import AddFilmModal from './components/AddFilmModal';
-import AdminPage from './components/AdminPage';
-import AddShowModal from './components/AddShowModal';
-import AddEpisodeModal from './components/AddEpisodeModal';
-import { NEWS_ARTICLES, PROFILES as DEFAULT_PROFILES, AVATARS, ADMIN_EMAILS, ANIMATIONS as INITIAL_ANIMATIONS } from './constants';
-import type { Animation, NewsArticle, Profile, User, WatchHistoryItem, Episode, Season } from './types';
+import { NEWS_ARTICLES, PROFILES as DEFAULT_PROFILES, AVATARS, AVATAR_SECTIONS, ANIMATIONS as INITIAL_ANIMATIONS } from './constants';
+import type { Animation, NewsArticle, Profile, User, WatchHistoryItem } from './types';
 
 // --- Data Persistence Logic (from former api.ts) ---
 const LOCAL_STORAGE_KEY = 'chickensoup_data';
 
 interface RemoteData {
   users: User[];
-  animations: Animation[];
 }
 
 const loadRemoteData = async (): Promise<RemoteData> => {
@@ -44,29 +41,20 @@ const loadRemoteData = async (): Promise<RemoteData> => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
       console.log('✅ Loaded data from localStorage.');
-      const parsedData: RemoteData = JSON.parse(storedData);
-      // Ensure animations are populated if they are somehow empty in storage
-      if (!parsedData.animations || parsedData.animations.length === 0) {
-        parsedData.animations = INITIAL_ANIMATIONS;
+      const parsedData = JSON.parse(storedData);
+      // Migrate or just extract users
+      if (parsedData.users) {
+        return { users: parsedData.users };
       }
-      return parsedData;
     } else {
-      console.log('ℹ️ No data in localStorage, using initial default data.');
+      console.log('ℹ️ No data in localStorage.');
     }
   } catch (error) {
     console.error('❌ Error loading data from localStorage:', error);
   }
   
-  // If no data or error, return initial state with the embedded admin account
-  const adminUser: User = {
-    id: 1,
-    email: 'admin@chickensoup.com',
-    password: ',px!^8ZFq3,cBE>}kBbV^tHE1lhndK',
-    profiles: DEFAULT_PROFILES.map(p => ({ ...p, name: 'Admin' })),
-    isAdmin: true,
-  };
-
-  return { users: [adminUser], animations: INITIAL_ANIMATIONS };
+  // If no data or error, return initial state with no users
+  return { users: [] };
 };
 
 const saveRemoteData = async (data: RemoteData): Promise<void> => {
@@ -80,7 +68,12 @@ const saveRemoteData = async (data: RemoteData): Promise<void> => {
 };
 // --- End of Data Persistence Logic ---
 
-export type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies' | 'admin';
+export type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'careers' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies' | 'contact';
+
+interface PlayingVideoState {
+  url: string;
+  poster?: string;
+}
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -91,15 +84,12 @@ const App: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
-  const [playingVideoUrl, setPlayingVideoUrl] = useState<string | null>(null);
-  const [isAddFilmModalOpen, setIsAddFilmModalOpen] = useState(false);
-  const [isAddShowModalOpen, setIsAddShowModalOpen] = useState(false);
-  const [isAddEpisodeModalOpen, setIsAddEpisodeModalOpen] = useState(false);
-
+  const [playingVideo, setPlayingVideo] = useState<PlayingVideoState | null>(null);
 
   // Data State
   const [users, setUsers] = useState<User[]>([]);
-  const [animations, setAnimations] = useState<Animation[]>([]);
+  // Animations are now static from constants to ensure code updates are always reflected immediately
+  const [animations, setAnimations] = useState<Animation[]>(INITIAL_ANIMATIONS);
 
   // Account State
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -112,18 +102,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const { users: allUsers, animations: allAnimations } = await loadRemoteData();
-        const updatedUsers = allUsers.map((user: User) => ({
-            ...user,
-            isAdmin: ADMIN_EMAILS.includes(user.email.toLowerCase())
-        }));
-
-        setUsers(updatedUsers);
-        setAnimations(allAnimations);
+        const { users: allUsers } = await loadRemoteData();
+        setUsers(allUsers);
+        // Animations always come from constants now
+        setAnimations(INITIAL_ANIMATIONS);
         
         const currentUserId = sessionStorage.getItem('chickensoup_currentUser');
         if (currentUserId) {
-          const loggedInUser = updatedUsers.find((u: User) => u.id === Number(currentUserId));
+          const loggedInUser = allUsers.find((u: User) => u.id === Number(currentUserId));
           if (loggedInUser) {
             setCurrentUser(loggedInUser);
           }
@@ -140,9 +126,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      saveRemoteData({ users, animations });
+      saveRemoteData({ users });
     }
-  }, [users, animations, isLoading]);
+  }, [users, isLoading]);
 
   useEffect(() => {
     if (view === 'home' && !selectedAnimation && animations.length > 0) {
@@ -163,7 +149,6 @@ const App: React.FC = () => {
       email,
       password,
       profiles: DEFAULT_PROFILES,
-      isAdmin: ADMIN_EMAILS.includes(email.toLowerCase()),
     };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
@@ -266,87 +251,6 @@ const App: React.FC = () => {
       setCurrentUser(updatedUser);
       setUsers(users.map(u => u.id === currentUser.id ? updatedUser : u));
   };
-  
-  const handleAddShortFilm = (filmData: { title: string; description: string; youtubeUrl: string }) => {
-    const newAnimation: Animation = {
-        id: Date.now(),
-        title: filmData.title,
-        description: filmData.description,
-        thumbnailUrl: `https://img.youtube.com/vi/${new URL(filmData.youtubeUrl).searchParams.get('v')}/0.jpg`,
-        heroImageUrl: `https://img.youtube.com/vi/${new URL(filmData.youtubeUrl).searchParams.get('v')}/maxresdefault.jpg`,
-        category: 'short-films',
-        year: new Date().getFullYear(),
-        rating: 'NR',
-        duration: 'N/A',
-        videoUrl: filmData.youtubeUrl,
-        likes: 0,
-        superlikes: 0,
-        dislikes: 0,
-    };
-    setAnimations(prev => [...prev, newAnimation]);
-    setIsAddFilmModalOpen(false);
-  };
-
-  const handleAddShow = (showData: Omit<Animation, 'id' | 'category' | 'seasons' | 'likes' | 'superlikes' | 'dislikes'>) => {
-    const newShow: Animation = {
-      id: Date.now(),
-      ...showData,
-      category: 'shows',
-      seasons: [],
-      likes: 0,
-      superlikes: 0,
-      dislikes: 0,
-    };
-    setAnimations(prev => [...prev, newShow]);
-    setIsAddShowModalOpen(false);
-  };
-
-  const handleAddEpisode = (data: {
-    showId: number;
-    seasonNumber: number;
-    title: string;
-    description: string;
-    youtubeUrl: string;
-    duration: string;
-  }) => {
-    setAnimations(prevAnims => {
-      const newAnims = [...prevAnims];
-      const showIndex = newAnims.findIndex(a => a.id === data.showId);
-      if (showIndex === -1) return prevAnims; 
-  
-      const showToUpdate = { ...newAnims[showIndex] };
-      showToUpdate.seasons = showToUpdate.seasons ? [...showToUpdate.seasons.map(s => ({...s, episodes: [...s.episodes]}))] : [];
-  
-      const seasonIndex = showToUpdate.seasons.findIndex(s => s.seasonNumber === data.seasonNumber);
-  
-      const newEpisode: Episode = {
-        id: Date.now(),
-        title: data.title,
-        description: data.description,
-        duration: data.duration,
-        videoUrl: data.youtubeUrl,
-        thumbnailUrl: `https://img.youtube.com/vi/${new URL(data.youtubeUrl).searchParams.get('v')}/0.jpg`,
-      };
-  
-      if (seasonIndex > -1) {
-        const seasonToUpdate = { ...showToUpdate.seasons[seasonIndex] };
-        seasonToUpdate.episodes = [...seasonToUpdate.episodes, newEpisode];
-        showToUpdate.seasons[seasonIndex] = seasonToUpdate;
-      } else {
-        const newSeason: Season = {
-          seasonNumber: data.seasonNumber,
-          episodes: [newEpisode],
-        };
-        showToUpdate.seasons.push(newSeason);
-        showToUpdate.seasons.sort((a, b) => a.seasonNumber - b.seasonNumber);
-      }
-      
-      newAnims[showIndex] = showToUpdate;
-      return newAnims;
-    });
-  
-    setIsAddEpisodeModalOpen(false);
-  };
 
   const handleAddToWatchHistory = (animationId: number) => {
     if (!currentProfile) return;
@@ -435,18 +339,21 @@ const App: React.FC = () => {
 
 
   // --- Video Playback Handlers ---
-  const handlePlayVideo = (videoUrl: string) => {
-    setPlayingVideoUrl(videoUrl);
+  const handlePlayVideo = (videoUrl: string, poster?: string) => {
+    setPlayingVideo({ url: videoUrl, poster });
   };
   
   const handleClosePlayer = () => {
-    setPlayingVideoUrl(null);
+    setPlayingVideo(null);
   };
 
   const handlePlayFromCard = (animation: Animation) => {
     const urlToPlay = animation.videoUrl || animation.trailerUrl || animation.seasons?.[0]?.episodes?.[0]?.videoUrl;
     if (urlToPlay) {
-      setPlayingVideoUrl(urlToPlay);
+      setPlayingVideo({ 
+        url: urlToPlay,
+        poster: animation.heroImageUrl || animation.thumbnailUrl
+      });
       handleAddToWatchHistory(animation.id);
     }
   };
@@ -478,6 +385,7 @@ const App: React.FC = () => {
           onSave={handleSaveProfile}
           onDelete={handleDeleteProfile}
           avatars={AVATARS}
+          avatarSections={AVATAR_SECTIONS}
           canDelete={currentUser.profiles.length > 1}
         />
       </>
@@ -574,7 +482,6 @@ const App: React.FC = () => {
                   animations={animations} 
                   onSelectAnimation={handleSelectAnimation} 
                   onPlayAnimation={handlePlayFromCard} 
-                  onAddFilmClick={currentUser?.isAdmin ? () => setIsAddFilmModalOpen(true) : undefined} 
                 />;
       case 'news':
         return <NewsPage articles={NEWS_ARTICLES} onSelectArticle={setSelectedArticle} />;
@@ -584,6 +491,8 @@ const App: React.FC = () => {
         return <ComingSoonPage />;
       case 'about':
         return <AboutPage />;
+      case 'careers':
+        return <CareersPage />;
       case 'help':
         return <HelpCenterPage />;
       case 'account':
@@ -594,14 +503,8 @@ const App: React.FC = () => {
         return <PrivacyPolicyPage />;
       case 'cookies':
         return <CookiePreferencesPage />;
-      case 'admin':
-        return <AdminPage 
-                    animations={animations} 
-                    users={users} 
-                    onAddShowClick={() => setIsAddShowModalOpen(true)}
-                    onAddEpisodeClick={() => setIsAddEpisodeModalOpen(true)}
-                    onAddShortFilmClick={() => setIsAddFilmModalOpen(true)}
-                />;
+      case 'contact':
+        return <ContactPage />;
       default:
         return null;
     }
@@ -637,10 +540,7 @@ const App: React.FC = () => {
         }}
       />
       {selectedArticle && <NewsArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />}
-      {playingVideoUrl && <VideoPlayer videoUrl={playingVideoUrl} onClose={handleClosePlayer} />}
-      {isAddFilmModalOpen && <AddFilmModal onClose={() => setIsAddFilmModalOpen(false)} onSave={handleAddShortFilm} />}
-      {isAddShowModalOpen && <AddShowModal onClose={() => setIsAddShowModalOpen(false)} onSave={handleAddShow} />}
-      {isAddEpisodeModalOpen && <AddEpisodeModal shows={animations.filter(a => a.category === 'shows')} onClose={() => setIsAddEpisodeModalOpen(false)} onSave={handleAddEpisode} />}
+      {playingVideo && <VideoPlayer videoUrl={playingVideo.url} poster={playingVideo.poster} onClose={handleClosePlayer} />}
     </div>
   );
 };
