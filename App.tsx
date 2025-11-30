@@ -70,6 +70,8 @@ const saveRemoteData = async (data: RemoteData): Promise<void> => {
 
 export type View = 'home' | 'shows' | 'short-films' | 'news' | 'coming-soon' | 'my-list' | 'about' | 'careers' | 'help' | 'account' | 'terms' | 'privacy' | 'cookies' | 'contact';
 
+const VIEWS: View[] = ['home', 'shows', 'short-films', 'news', 'coming-soon', 'my-list', 'about', 'careers', 'help', 'account', 'terms', 'privacy', 'cookies', 'contact'];
+
 interface PlayingVideoState {
   url: string;
   poster?: string;
@@ -124,6 +126,45 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
+  // --- Hash Routing for GitHub Pages Compatibility ---
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.substring(1); // remove #
+      
+      // Check for watch link: #watch/123
+      if (hash.startsWith('watch/')) {
+        const id = parseInt(hash.split('/')[1]);
+        if (!isNaN(id)) {
+          const anim = animations.find(a => a.id === id);
+          if (anim) {
+            setSelectedAnimation(anim);
+            return;
+          }
+        }
+      }
+
+      // If not watching or invalid ID, fallback to view navigation
+      setSelectedAnimation(null);
+      if (VIEWS.includes(hash as View)) {
+        setView(hash as View);
+      } else {
+        // Default to home if hash is invalid or empty
+        setView('home');
+        if (hash !== 'home' && hash !== '') {
+           window.history.replaceState(null, '', '#home');
+        }
+      }
+    };
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Check hash on initial load (after data load)
+    handleHashChange();
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [animations]); // Re-run when animations are loaded
+
   useEffect(() => {
     if (!isLoading) {
       saveRemoteData({ users });
@@ -170,6 +211,7 @@ const App: React.FC = () => {
     setCurrentUser(null);
     setCurrentProfile(null);
     sessionStorage.removeItem('chickensoup_currentUser');
+    window.location.hash = ''; // Reset route
   };
   
   const handleBypassLogin = () => {
@@ -394,18 +436,19 @@ const App: React.FC = () => {
 
   const handleNavigation = (newView: View) => {
     setPreviousView(view);
-    setView(newView);
-    setSelectedAnimation(null);
+    // Update hash instead of state directly
+    window.location.hash = newView;
     window.scrollTo(0, 0);
   };
 
   const handleSelectAnimation = (animation: Animation) => {
-    setSelectedAnimation(animation);
+    // Update hash for deep linking support
+    window.location.hash = `watch/${animation.id}`;
   };
 
   const handleBack = () => {
-    setSelectedAnimation(null);
-    setView(previousView);
+    // Navigate back via hash
+    window.location.hash = previousView;
   };
   
   const filteredAnimations = animations.filter(animation =>
