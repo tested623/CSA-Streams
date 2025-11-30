@@ -36,6 +36,19 @@ const HelpCenterPage: React.FC = () => {
           />
         </div>
 
+        <div className="space-y-4 mb-10">
+          <div className="bg-slate-800/50 border border-amber-400/30 p-4 rounded-lg text-center">
+            <p className="text-amber-200 font-medium">
+              No information is collected right now because we don't have a database yet.
+            </p>
+          </div>
+          <div className="bg-slate-800/50 border border-red-400/30 p-4 rounded-lg text-center">
+            <p className="text-red-200 font-medium">
+              The like feature is currently down.
+            </p>
+          </div>
+        </div>
+
         <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-bold text-white mb-4">Account & Billing</h2>
