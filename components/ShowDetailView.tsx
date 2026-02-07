@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import type { Animation } from '../types';
-import EpisodeCard from './EpisodeCard';
-import RatingControls from './RatingControls';
-import { PLAY_ICON } from '../constants';
+import type { Animation } from '../types.ts';
+import EpisodeCard from './EpisodeCard.tsx';
+import RatingControls from './RatingControls.tsx';
+import { PLAY_ICON } from '../constants.tsx';
 
 interface ShowDetailViewProps {
   animation: Animation;
@@ -78,7 +77,6 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
 
   return (
     <div>
-      {/* Hero Section for the Detail View */}
       <div className="relative h-[50vh] md:h-[70vh] w-full">
         <div
           className="absolute inset-0 bg-cover bg-center"

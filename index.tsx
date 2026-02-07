@@ -1,6 +1,6 @@
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './App.tsx';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -11,7 +11,6 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-// Adding constructor and super call to fix TypeScript error where 'props' property was not recognized on the class instance
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);

@@ -1,7 +1,6 @@
-
 import React from 'react';
-import type { Animation } from '../types';
-import { PLAY_ICON, INFO_ICON } from '../constants';
+import type { Animation } from '../types.ts';
+import { PLAY_ICON, INFO_ICON } from '../constants.tsx';
 
 interface HeroSectionProps {
   animations: Animation[];
@@ -58,7 +57,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
 
   return (
     <div className="relative h-[60vh] md:h-[90vh] w-full overflow-hidden">
-      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out"
         style={{ backgroundImage: `url(${animation.heroImageUrl})`, transform: 'scale(1.05)' }}
@@ -67,7 +65,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent"></div>
       
-      {/* Content */}
       <div className="relative h-full flex flex-col justify-end px-4 md:px-12 pb-32">
         <div className="max-w-xl text-white" key={animation.id}>
           <div className="animate-fade-in-up">
@@ -97,7 +94,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
         </div>
       </div>
 
-      {/* Navigation Arrows */}
       <button onClick={onPrev} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 p-2 rounded-full text-white hover:bg-black/60 transition-colors z-20 active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
       </button>
@@ -105,7 +101,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
       </button>
       
-      {/* Indicator Dots */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
         {animations.map((_, index) => (
           <button 

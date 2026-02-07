@@ -1,7 +1,6 @@
-
 import React, { useRef } from 'react';
-import type { Animation } from '../types';
-import VideoCard from './VideoCard';
+import type { Animation } from '../types.ts';
+import VideoCard from './VideoCard.tsx';
 
 interface ContentCarouselProps {
   title: string;
@@ -17,7 +16,6 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, on
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const { current } = scrollContainerRef;
-      // Scroll by about 75% of the visible width
       const scrollAmount = direction === 'left' ? -current.clientWidth * 0.75 : current.clientWidth * 0.75;
       current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
@@ -30,7 +28,6 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, on
       </div>
       
       <div className="relative">
-        {/* Left Scroll Button */}
         <button 
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-amber-400 hover:text-slate-900 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hidden md:flex items-center justify-center -ml-4 shadow-lg backdrop-blur-sm"
@@ -61,7 +58,6 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, on
           )}
         </div>
 
-        {/* Right Scroll Button */}
         <button 
           onClick={() => scroll('right')}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-amber-400 hover:text-slate-900 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hidden md:flex items-center justify-center -mr-4 shadow-lg backdrop-blur-sm"
@@ -75,18 +71,5 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, animations, on
     </section>
   );
 };
-
-// A simple utility class to hide scrollbars if Tailwind doesn't have it by default
-const style = document.createElement('style');
-style.textContent = `
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-`;
-document.head.append(style);
 
 export default ContentCarousel;
