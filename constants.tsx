@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Animation, AnimationCategory, NewsArticle, Profile } from './types';
 
@@ -42,6 +41,8 @@ export const AVATAR_SECTIONS = [
     avatars: [
       'https://img.gs/fhcphvsghs/150/https://i.ibb.co/35MPWb5L/IMG-3461.png',
       'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/XrJ52zTH/Screenshot-2025-10-21-182643.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/mhv7gjzm/Screenshot-2025-10-21-181153.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/V0X6tSb8/Screenshot-2025-10-21-174842.png',
     ]
   },
   {
@@ -49,18 +50,39 @@ export const AVATAR_SECTIONS = [
     avatars: [
       'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/phwMmrFg/Screenshot-2025-10-21-193413.png',
       'https://img.gs/fhcphvsghs/150/https://i.ibb.co/TBHKFS22/IMG-3459.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/sM4b6fPF/Screenshot-2025-10-24-174107.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/grgBtnJ4/Screenshot-2025-10-21-194113.png',
+    ]
+  },
+  {
+    title: 'Ploto-Samir Studios',
+    avatars: [
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/spv9kbTy/Screenshot-2025-11-29-001310.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/WWjSKzH5/Screenshot-2025-11-29-001345.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/q3zx98x4/Screenshot-2025-11-29-001424.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/Mx5PzjK1/Screenshot-2025-11-29-001656.png',
+    ]
+  },
+  {
+    title: 'Sakito Legends',
+    avatars: [
+      'https://i.ibb.co/fzCB5ST8/Screenshot-2026-02-07-130726.png',
     ]
   },
   {
     title: 'Fruity Toons',
     avatars: [
       'https://img.gs/fhcphvsghs/150/https://i.ibb.co/HDPJYyVb/Screenshot-2025-10-21-173823.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/GHq8ynXF/Screenshot-2025-10-21-200811.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/hXYsW57B/Screenshot-2025-10-21-201006.png',
     ]
   },
   {
     title: 'Freaky Falls',
     avatars: [
       'https://img.gs/fhcphvsghs/150/https://i.ibb.co/KcZy3syF/Screenshot-2025-10-21-173625.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/MvM2yyDN/Screenshot-2025-10-21-195918.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/bMgmWSGh/Screenshot-2025-11-29-133425.png',
     ]
   },
   {
@@ -68,6 +90,8 @@ export const AVATAR_SECTIONS = [
     avatars: [
       'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/5Qw91T0M/Screenshot-2025-10-21-203948.png',
       'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/1nKPj67W/Screenshot-2025-10-21-204622.png',
+      'https://img.gs/fhcphvsghs/150/https://i.postimg.cc/njSSrhX7/Screenshot-2025-10-21-205129.png',
+      'https://img.gs/fhcphvsghs/150/https://i.ibb.co/TBwSdPqC/Screenshot-2025-12-02-195648.png',
     ]
   }
 ];
@@ -121,6 +145,27 @@ Rumor has it that this episode may be a Halloween episode, witch the last one wa
 
 export const ANIMATIONS: Animation[] = [
   {
+    id: 10,
+    title: 'Sakito',
+    description: "",
+    thumbnailUrl: 'https://i.ibb.co/fzCB5ST8/Screenshot-2026-02-07-130726.png',
+    heroImageUrl: 'https://i.ibb.co/v471djpG/Screenshot-2026-02-07-134241.png',
+    category: 'shows',
+    year: 2026,
+    rating: 'TV-13',
+    duration: '1 Season',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
+    studio: 'Chickensoup',
+    seasons: [
+      {
+        seasonNumber: 1,
+        episodes: []
+      }
+    ]
+  },
+  {
     id: 1,
     title: 'The Slayer',
     description: 'A Lonesome Nonchalant Slayer searches for his magical PeeWee.',
@@ -134,6 +179,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
     seasons: [
       {
         seasonNumber: 1,
@@ -222,7 +268,7 @@ export const ANIMATIONS: Animation[] = [
             description: 'The Final battle leading up to the next season.',
             thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.postimg.cc/7bS7W7hF/Screenshot-2025-10-21-184023.png',
             duration: '4m 6s',
-            videoUrl: 'https://www.youtube.com/watch?v=5aT5eDbvcdE'
+            videoUrl: 'https://www.youtube.com/watch?v=jgqM1Qv3p8k'
           }
         ],
       },
@@ -356,6 +402,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
     seasons: [
       {
         seasonNumber: 1,
@@ -426,6 +473,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
     seasons: [
       {
         seasonNumber: 1,
@@ -464,6 +512,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
     seasons: [
       {
         seasonNumber: 1,
@@ -524,6 +573,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
   },
   {
     id: 6,
@@ -539,6 +589,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
   },
   {
     id: 7,
@@ -554,6 +605,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Chickensoup',
   },
   {
     id: 8,
@@ -570,6 +622,7 @@ export const ANIMATIONS: Animation[] = [
     likes: 0,
     superlikes: 0,
     dislikes: 0,
+    studio: 'Ploto-Samir Studios',
     seasons: [
       {
         seasonNumber: 1,
@@ -642,5 +695,21 @@ export const ANIMATIONS: Animation[] = [
         ]
       }
     ]
+  },
+  {
+    id: 9,
+    title: 'Intermission',
+    description: "a old story?",
+    thumbnailUrl: 'https://img.gs/fhcphvsghs/500/https://i.ibb.co/TBwSdPqC/Screenshot-2025-12-02-195648.png',
+    heroImageUrl: 'https://img.gs/fhcphvsghs/1920/https://i.ibb.co/TBwSdPqC/Screenshot-2025-12-02-195648.png',
+    category: 'short-films',
+    year: 2025,
+    rating: 'NR',
+    duration: '23s',
+    videoUrl: 'https://www.youtube.com/watch?v=RIV3Z6_7oKY',
+    likes: 0,
+    superlikes: 0,
+    dislikes: 0,
+    studio: 'Ploto-Samir Studios',
   }
 ];

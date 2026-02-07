@@ -32,6 +32,7 @@ export interface Animation {
   superlikes?: number;
   dislikes?: number;
   status?: string;
+  studio?: string; // New property for brand intermission logic
 }
 
 export interface AnimationCategory {

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { Animation } from '../types';
 import { PLAY_ICON, INFO_ICON } from '../constants';
@@ -37,6 +38,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
     }
   };
 
+  const renderIntermission = () => {
+    if (animation.studio === 'Ploto-Samir Studios') {
+      return (
+        <div className="flex items-center space-x-2 mb-4 animate-fade-in-up">
+           <span className="text-pink-400 text-2xl font-black italic tracking-tight" style={{ fontFamily: "'Shadows Into Light', cursive" }}>
+             Ploto-Samir Studios
+           </span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-center space-x-2 mb-4 animate-fade-in-up">
+         <span className="text-amber-400 text-3xl font-black italic tracking-tighter">CHICKENSOUP</span>
+      </div>
+    );
+  };
+
   return (
     <div className="relative h-[60vh] md:h-[90vh] w-full overflow-hidden">
       {/* Background Image */}
@@ -52,7 +71,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
       <div className="relative h-full flex flex-col justify-end px-4 md:px-12 pb-32">
         <div className="max-w-xl text-white" key={animation.id}>
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl font-black mb-4">{animation.title}</h1>
+            {renderIntermission()}
+            <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tight">{animation.title}</h1>
             <div className="flex items-center space-x-4 text-sm text-gray-300 mb-4">
               <span>{animation.year}</span>
               <span className="border border-gray-500 px-2 py-0.5 rounded">{animation.rating}</span>
@@ -98,23 +118,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({ animations, currentIndex, onS
     </div>
   );
 };
-
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .animate-fade-in-up {
-    animation: fade-in-up 0.5s ease-out forwards;
-  }
-`;
-document.head.append(style);
 
 export default HeroSection;

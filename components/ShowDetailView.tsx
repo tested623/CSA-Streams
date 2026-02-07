@@ -22,7 +22,6 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
   const isShortFilm = !animation.seasons && !!animation.videoUrl;
   const currentSeason = animation.seasons?.find(s => s.seasonNumber === selectedSeason);
 
-  // Safely determine if we are viewing the last season available for this animation
   const lastSeason = animation.seasons && animation.seasons.length > 0 
     ? animation.seasons[animation.seasons.length - 1] 
     : null;
@@ -39,7 +38,6 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
       : animation.trailerUrl || animation.seasons?.[0]?.episodes?.[0]?.videoUrl;
 
     if (urlToPlay) {
-      // Use the hero image as a fallback poster for the main play button
       handlePlayEpisode(urlToPlay, animation.heroImageUrl);
     }
   };
@@ -62,6 +60,22 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
     </button>
   );
 
+  const renderIntermission = () => {
+    if (animation.studio === 'Ploto-Samir Studios') {
+      return (
+        <h3 className="text-2xl md:text-3xl font-black text-pink-400 mb-2 drop-shadow-md" style={{ fontFamily: "'Shadows Into Light', cursive" }}>
+          Ploto-Samir Studios
+        </h3>
+      );
+    }
+
+    return (
+      <h3 className="text-2xl md:text-3xl font-black text-amber-400 mb-2 drop-shadow-md">
+        CHICKENSOUP
+      </h3>
+    );
+  };
+
   return (
     <div>
       {/* Hero Section for the Detail View */}
@@ -73,22 +87,18 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
         <div className="relative h-full flex flex-col justify-end px-4 md:px-12 pb-12">
           <div className="max-w-2xl text-white">
-            {animation.title === "Samir's Stories" ? (
-                 <h3 className="text-2xl md:text-3xl font-black text-pink-400 mb-2" style={{ fontFamily: "'Shadows Into Light', cursive" }}>Ploto-Samir Studios</h3>
-            ) : (
-                 <h3 className="text-2xl md:text-3xl font-black text-amber-400 mb-2">CHICKENSOUP</h3>
-            )}
-            <h1 className="text-4xl md:text-6xl font-black mb-4">{animation.title}</h1>
+            {renderIntermission()}
+            <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tight">{animation.title}</h1>
             <div className="flex items-center space-x-4 text-sm text-gray-300 mb-4">
               <span>{animation.year}</span>
               <span className="border border-gray-500 px-2 py-0.5 rounded">{animation.rating}</span>
               <span>{animation.duration}</span>
             </div>
-            <p className="text-base md:text-lg mb-6 line-clamp-3">{animation.description}</p>
+            <p className="text-base md:text-lg mb-6 line-clamp-3 leading-relaxed">{animation.description}</p>
             <div className="flex items-center space-x-4">
               <button 
                 onClick={handlePlay}
-                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-transform hover:scale-105 active:scale-95 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-6 rounded-lg flex items-center space-x-2 transition-transform hover:scale-105 active:scale-95 disabled:bg-gray-500 disabled:cursor-not-allowed shadow-lg"
                 disabled={isShortFilm ? !animation.videoUrl : !animation.trailerUrl && !animation.seasons?.[0]?.episodes?.[0]?.videoUrl}
               >
                 {PLAY_ICON}
@@ -108,7 +118,7 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
       <div className="px-4 md:px-12 py-8">
         <button 
           onClick={onBack}
-          className="mb-8 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center space-x-2 transition-transform active:scale-95"
+          className="mb-8 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 px-6 rounded-lg transition-all flex items-center space-x-2 active:scale-95 shadow-md"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -116,16 +126,15 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
           <span>Back to Browse</span>
         </button>
 
-        {/* Episodes Section - Conditionally Rendered */}
         {!isShortFilm && (
           <>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
               <h2 className="text-2xl font-bold text-amber-300">Episodes</h2>
               {animation.seasons && animation.seasons.length > 1 && (
                 <select
                   value={selectedSeason}
                   onChange={(e) => setSelectedSeason(Number(e.target.value))}
-                  className="bg-slate-800 border border-slate-700 text-white text-sm rounded-md p-2 focus:ring-amber-400 focus:border-amber-400"
+                  className="bg-slate-800 border border-slate-700 text-white text-sm rounded-md p-2 focus:ring-amber-400 focus:border-amber-400 outline-none"
                 >
                   {animation.seasons.map(season => (
                     <option key={season.seasonNumber} value={season.seasonNumber}>
@@ -147,17 +156,13 @@ const ShowDetailView: React.FC<ShowDetailViewProps> = ({ animation, onBack, onAd
                   />
                 ))
               ) : (
-                <p className="text-gray-500">No episodes available for this season yet.</p>
+                <p className="text-gray-500 py-4 italic text-center">No episodes available for this season yet.</p>
               )}
 
               {isLastSeason && (
-                <div className="text-center text-amber-300 font-semibold py-8">
+                <div className="text-center text-amber-300 font-semibold py-12 border-t border-slate-800/50 mt-8">
                   {animation.status === 'Discontinued' ? 'Show Discontinued' : 'More coming soon, Stay Tuned!'}
                 </div>
-              )}
-
-              {!currentSeason && (
-                <p className="text-gray-500">No episodes available for this show yet.</p>
               )}
             </div>
           </>
