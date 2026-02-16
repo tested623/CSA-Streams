@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 
 interface VideoPlayerProps {
@@ -8,15 +7,17 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, poster, onClose }) => {
-  const [isYoutube, setIsYoutube] = useState(false);
+  const [useIframe, setUseIframe] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (!videoUrl) return;
 
-    // Check for YouTube
+    // Check for YouTube or ScreenPal
     const isYt = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
-    setIsYoutube(isYt);
+    const isScreenPal = videoUrl.includes('screenpal.com');
+    
+    setUseIframe(isYt || isScreenPal);
 
     if (isYt) {
         try {
@@ -27,8 +28,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, poster, onClose }) 
             }
             
             if (videoId) {
-                 // Fix for Error 153:
-                 // Match params exactly to the provided working snippet, including widget_referrer
                  const params = new URLSearchParams({
                     enablejsapi: '1',
                     rel: '0',
@@ -38,14 +37,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, poster, onClose }) 
                     origin: window.location.origin,
                     widget_referrer: window.location.origin
                  });
-                 
                  setVideoSrc(`https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`);
             } else {
-                 setVideoSrc(videoUrl); // Fallback
+                 setVideoSrc(videoUrl);
             }
         } catch (e) {
             setVideoSrc(videoUrl);
         }
+    } else if (isScreenPal) {
+        // Use the URL directly for the iframe as provided by the user
+        setVideoSrc(videoUrl);
     } else {
         // Native video
         setVideoSrc(videoUrl);
@@ -67,7 +68,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, poster, onClose }) 
       </button>
 
       <div className="relative w-full max-w-7xl aspect-video bg-black shadow-2xl rounded-xl overflow-hidden border border-slate-800">
-        {isYoutube ? (
+        {useIframe ? (
           <iframe
             id="player"
             src={videoSrc}

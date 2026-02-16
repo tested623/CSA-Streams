@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const ContactPage: React.FC = () => {
@@ -14,7 +13,7 @@ const ContactPage: React.FC = () => {
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
     
     // Actually trigger the email client
-    window.location.href = `mailto:turnerwilliam013@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:chickensoupanimations@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -53,7 +52,7 @@ const ContactPage: React.FC = () => {
             <div className="bg-slate-800/50 p-8 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold text-white mb-2">General Support</h3>
               <p className="text-gray-300 mb-2">For general questions and support, please email us at:</p>
-              <a href="mailto:turnerwilliam013@gmail.com" className="text-amber-300 font-semibold underline break-all">turnerwilliam013@gmail.com</a>
+              <a href="mailto:chickensoupanimations@gmail.com" className="text-amber-300 font-semibold underline break-all">chickensoupanimations@gmail.com</a>
             </div>
 
             <div className="bg-slate-800/50 p-8 rounded-lg border border-slate-700">
