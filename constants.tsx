@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Animation, AnimationCategory, NewsArticle, Profile } from './types';
+import type { Animation, AnimationCategory, NewsArticle, Profile } from './types.ts';
 
 // --- ICONS ---
 

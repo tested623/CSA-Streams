@@ -1,6 +1,7 @@
-import React, { ReactNode, ErrorInfo } from 'react';
+
+import React, { Component, ReactNode, ErrorInfo } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './App.tsx';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -11,11 +12,17 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
+// Fixed ErrorBoundary by using React.Component to ensure props and state types are correctly inherited and recognized by TypeScript.
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state: ErrorBoundaryState = {
+  // Explicitly initialize state as a class property for better type inference in some environments.
+  override state: ErrorBoundaryState = {
     hasError: false,
     error: null
   };
+
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+  }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
@@ -26,6 +33,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   render() {
+    // Accessing this.state which is correctly inherited from React.Component
     if (this.state.hasError) {
       return (
         <div style={{ padding: '2rem', color: 'white', backgroundColor: '#0f172a', minHeight: '100vh', fontFamily: 'sans-serif' }}>
@@ -44,18 +52,21 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
 
+    // Accessing this.props which is correctly inherited from React.Component
     return this.props.children;
   }
 }
 
 const rootElement = document.getElementById('root');
-if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </React.StrictMode>
-  );
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
 }
+
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </React.StrictMode>
+);
